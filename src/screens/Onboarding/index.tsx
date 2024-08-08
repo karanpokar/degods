@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { typography } from '../../utils/theme'
 
 const SplashScreen = () => {
   return (
     <View>
-      <Text>SplashScreen</Text>
+      <Text style={{fontFamily:typography.Bold}}>SplashScreen</Text>
     </View>
   )
 }

@@ -6,29 +6,19 @@ import appStore from './src/store/store';
 import CollectionPage from './src/screens/Collection';
 import NFTPage from './src/screens/NFT';
 import SplashScreen from './src/screens/Onboarding';
-
 const Stack = createNativeStackNavigator();
-
-
-
-
 const App = () => {
   return (
   <Provider store={appStore}>
-      <NavigationContainer
-        onStateChange={state => {
-          //console.log('State', state);
-        }}>
+      <NavigationContainer>
         <Stack.Navigator
-        initialRouteName='Onboarding'
+        initialRouteName='Collection'
           screenOptions={{
             headerShown: false,
           }}>
             <Stack.Screen name='Onboarding' component={SplashScreen}/>
             <Stack.Screen name='Collection' component={CollectionPage}/>
             <Stack.Screen name='NFTPage' component={NFTPage}/>
-            
-            
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
