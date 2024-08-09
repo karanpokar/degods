@@ -12,8 +12,11 @@ const CollectionPage = () => {
     
   return (
     <View style={{width:'100%',height:'100%',backgroundColor:colors.primaryBackground}}>
-    <Image source={{uri:collectionData?.banner_image_url}} style={{width:'100%',height:Platform?.OS==='android'?120:160}}/>
-    <View style={{height:'100%',width:'100%'}}>
+    <Image source={{uri:collectionData?.banner_image_url}} style={{width:'100%',height:Platform?.OS==='android'?120:140}}/>
+    <View style={{width:'100%',justifyContent:'center',alignItems:'center',marginTop:-40}}>
+    <Image source={{uri:collectionData?.image_url}} style={{width:80,height:80,borderRadius:12,borderWidth:1}}/>
+    </View>
+    <View style={{height:'100%',width:'100%',backgroundColor:colors.secondaryBackground}}>
     <TabBar/>
     </View>
     </View>

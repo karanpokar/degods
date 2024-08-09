@@ -1,25 +1,27 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
-import { typography } from '../../../utils/theme'
+import { colors, typography } from '../../../utils/theme'
 import { useDispatch, useSelector } from 'react-redux';
 import { setBookmarks } from '../../../store/action';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const NFTItem = ({ item }) => {
+    const navigation=useNavigation();
     const dispatch=useDispatch();
     const addToBookmark=(data:any)=>dispatch(setBookmarks(data))
     const bookmark:any=useSelector((state:any)=>state?.bookmarks)
-
+    //console.log(JSON.stringify(item))
     const checkIsBookmarked=(item:any)=>{
         let includes= [...bookmark]?.filter((items,index)=>{
             return item?.nft_data?.external_data?.name==items?.nft_data?.external_data?.name
         })
-        console.log(includes.length,item?.nft_data?.external_data?.name,bookmark)
+        
         if(includes.length>0){
             //setBookmarked(true)
             return true
@@ -54,8 +56,12 @@ const NFTItem = ({ item }) => {
 
   
   return (
-    <TouchableOpacity style={styles.item}>
-     <Image style={{width:'100%',height:'100%',borderRadius:12}} source={{uri:item.nft_data?.external_data?.asset_url||item.nft_data?.external_data?.image}}/>
+    <TouchableOpacity onPress={()=>{
+        navigation.navigate('NFTPage',{
+            data:item
+        })
+    }} style={styles.item}>
+     <Image style={{width:'100%',height:'100%',borderRadius:12}} source={{uri:item.nft_data?.external_data?.image||item.nft_data?.external_data?.asset_url}}/>
     <View style={{width:'100%',height:32,borderBottomLeftRadius:12,borderBottomRightRadius:12,backgroundColor:'rgba(0,0,0,0.8)',position:'absolute',bottom:0,alignItems:'center',justifyContent:'space-between',flexDirection:'row',padding:4,paddingHorizontal:12}}>
         <Text style={{fontFamily:typography.Bold,fontSize:12,color:'white',}}>
             {item?.nft_data?.external_data?.name}
@@ -82,7 +88,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height:(width - 40) / 2,
         borderRadius:12,
-        position:'relative'
+        position:'relative',
+        borderColor:colors.shadow,
+        borderWidth:1
         
       },
 });

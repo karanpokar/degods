@@ -8,13 +8,11 @@ export const typography={
 }
 
 export const colors={
-    'primaryBackground':'#fff',
-    'primaryFont':'#000',
-    'secondaryBackground':'',
-    'secondaryFont':'',
-    'accent':'',
-    'divider':'#',
-    'border':'#',
-    'selectedTab':'#',
-    'bottomTab':'#',
+    'primaryBackground':'#1E1E1E',
+    'primaryFont':'#E0E0E0',
+    'secondaryBackground':'#1F1F1F',
+    'secondaryFont':'#E0E0E0',
+    'accent':'#BB86FC',
+    'border':'#444444',
+    'shadow':'rgba(0, 0, 0, 0.5)'
 }

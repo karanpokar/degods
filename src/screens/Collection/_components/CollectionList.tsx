@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { NFTList } from '../../../constant/data';
+import { colors } from '../../../utils/theme';
 import useCollection from '../_hooks/useCollection';
 
 import NFTItem from './NFTItem';
@@ -21,6 +22,9 @@ const CollectionList = () => {
       data={collectionItems?.filter((item:any,index:any)=>{
         return item?.nft_data?.external_data?.name!==undefined
       })}
+      style={{
+        backgroundColor:colors.secondaryBackground
+      }}
       renderItem={({item})=>(
         <NFTItem item={item}/>
       )}
@@ -39,6 +43,7 @@ const CollectionList = () => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 0,
+        backgroundColor:colors.secondaryBackground
          // 20px padding on left and right
       },
       item: {

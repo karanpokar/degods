@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { NFTList } from '../../../constant/data';
+import { colors } from '../../../utils/theme';
 
 import NFTItem from './NFTItem';
 
@@ -21,6 +22,7 @@ const BookmarkList = () => {
       data={bookmark?.filter((item,index)=>{
         return item?.nft_data?.external_data?.name!==undefined
       })}
+      style={{backgroundColor:colors.primaryBackground}}
       renderItem={({item})=>(
         <NFTItem item={item}/>
       )}
@@ -32,10 +34,11 @@ const BookmarkList = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 0,
-         // 20px padding on left and right
-      },
+  container: {
+    paddingHorizontal: 0,
+    backgroundColor:colors.secondaryBackground
+     // 20px padding on left and right
+  },
       item: {
         width: (width - 40) / 2,
         margin: 10, 
