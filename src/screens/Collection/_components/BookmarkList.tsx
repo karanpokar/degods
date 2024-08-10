@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet, Dimensions, View} from 'react-native';
 import { useSelector } from 'react-redux';
+import CircularLoader from '../../../common/Loader';
 import { NftItem } from '../../../types/CollectionTypes';
 import { colors } from '../../../utils/theme';
 
@@ -20,7 +21,9 @@ const BookmarkList = () => {
         return item?.nft_data?.external_data?.name!==undefined
       })}
       ListFooterComponent={()=>(
-        <View style={{width:'100%',height:200}}/>
+        <View style={{width:'100%',height:200,alignItems:'center',justifyContent:'center'}}>
+         
+        </View>
       )}
       style={{backgroundColor:colors.primaryBackground}}
       renderItem={({item})=>(

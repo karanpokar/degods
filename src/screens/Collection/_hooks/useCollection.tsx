@@ -16,6 +16,7 @@ export default function useCollection() {
     
       const [collectionItems,setCollectionItems]:any=useState([]);
       const fetchCollectionItems=async()=>{
+        console.log(page)
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -58,11 +59,12 @@ export default function useCollection() {
      
 
       useEffect(()=>{
+        fetchCollectionItems()
         if(page==0){
           fetchBookmarks();
           fetchCollectionInfo()
         }
-        fetchCollectionItems()
+        
       },[page])
 
    

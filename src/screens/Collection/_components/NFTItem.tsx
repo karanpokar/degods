@@ -40,7 +40,7 @@ const NFTItem = ({ item }:any) => {
         <TouchableOpacity onPress={()=>{
             onBookmarkClicked(item,bookmark,addToBookmark)
         }}>
-        <Icon name={checkIsBookmarked(item,bookmark)?'bookmark':'bookmark-outline'} color={'white'}/>
+        <Icon name={checkIsBookmarked(item,bookmark)?'bookmark':'bookmark-outline'} size={16} color={'white'}/>
         </TouchableOpacity>
     </View>
     </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         paddingBottom:200
          // 20px padding on left and right
       },
-      name:{fontFamily:typography.Bold,fontSize:12,color:'white'},
+      name:{fontFamily:typography.Bold,fontSize:14,color:'white'},
       item: {
         width: (width - 40) / 2,
         margin: 10, 
