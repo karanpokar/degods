@@ -1,12 +1,21 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { Trait, TraitFloorPrice } from '../../../types/CollectionTypes';
 import { colors, typography } from '../../../utils/theme';
 
 
 const itemMargin = 16; // Margin between items
 
+interface Item{
+  title:string,
+  trait:string,
+  value:number,
+  token:string
 
-const Item = ({ title,trait,value,token }:any) => (
+}
+
+
+const Item = ({ title,trait,value,token }:Item) => (
   <View style={styles.item}>
     <Text style={{textTransform:'uppercase',fontSize:8,fontFamily:typography.Medium,color:'black'}}>{title}</Text>
     <Text style={{fontSize:10,fontFamily:typography.SemiBold,color:colors.accent}}>{trait}</Text>
@@ -18,7 +27,7 @@ const Traits = ({traits}:any) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.row}>
-        {traits?.map((item:any, index:any) => (
+        {traits?.map((item:TraitFloorPrice, index:any) => (
           <Item key={index} title={item?.trait?.trait_type} trait={item?.trait?.value} value={item?.floor_price?.value/10**18} token={item?.floor_price?.payment_token?.symbol} />
         ))}
       </View>

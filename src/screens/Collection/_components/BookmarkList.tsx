@@ -1,16 +1,13 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import {FlatList, StyleSheet, Dimensions, View} from 'react-native';
 import { useSelector } from 'react-redux';
-import { NFTList } from '../../../constant/data';
+import { NftItem } from '../../../types/CollectionTypes';
 import { colors } from '../../../utils/theme';
 
 import NFTItem from './NFTItem';
 
-
-// Get screen width
 const { width } = Dimensions.get('window');
 
-// Calculate item width
 
 const BookmarkList = () => {
    
@@ -19,9 +16,12 @@ const BookmarkList = () => {
 
   return (
     <FlatList
-      data={bookmark?.filter((item,index)=>{
+      data={bookmark?.filter((item:NftItem)=>{
         return item?.nft_data?.external_data?.name!==undefined
       })}
+      ListFooterComponent={()=>(
+        <View style={{width:'100%',height:200}}/>
+      )}
       style={{backgroundColor:colors.primaryBackground}}
       renderItem={({item})=>(
         <NFTItem item={item}/>
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 0,
     backgroundColor:colors.secondaryBackground
-     // 20px padding on left and right
   },
       item: {
         width: (width - 40) / 2,

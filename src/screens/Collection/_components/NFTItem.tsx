@@ -4,83 +4,56 @@ import { colors, typography } from '../../../utils/theme'
 import { useDispatch, useSelector } from 'react-redux';
 import { setBookmarks } from '../../../store/action';
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useEffect } from 'react';
 import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { CollectionInfo, NftItem } from '../../../types/CollectionTypes';
+import { checkIsBookmarked, onBookmarkClicked } from '../../../utils/collection';
+import { lightFeedback } from '../../../utils/haptic';
 
 const { width } = Dimensions.get('window');
 
-const NFTItem = ({ item }) => {
+const NFTItem = ({ item }:any) => {
     const navigation=useNavigation();
     const dispatch=useDispatch();
-    const addToBookmark=(data:any)=>dispatch(setBookmarks(data))
-    const bookmark:any=useSelector((state:any)=>state?.bookmarks)
-    //console.log(JSON.stringify(item))
-    const checkIsBookmarked=(item:any)=>{
-        let includes= [...bookmark]?.filter((items,index)=>{
-            return item?.nft_data?.external_data?.name==items?.nft_data?.external_data?.name
-        })
-        
-        if(includes.length>0){
-            //setBookmarked(true)
-            return true
-        }
-        else{
-            //setBookmarked(false)
-            return false
-        }
-    }
-
-    const onBookmarkClicked=async(item:any)=>{
-        if(checkIsBookmarked(item)){
-            let filter=[...bookmark].filter((items,index)=>{
-                return item?.nft_data?.external_data?.name!==items?.nft_data?.external_data?.name
-            })
-            addToBookmark(filter)
-        }
-        else{
-            let finalArr=[...bookmark]
-            finalArr.push(item);
-            await AsyncStorage.setItem('bookmark',JSON.stringify(finalArr))
-            //console.log(finalArr)
-            
-            addToBookmark(finalArr)
-        }
-    }
-    //console.log('Bookmark',bookmark)
-
-    //  useEffect(() => {
-    // //    //console.log('Bookmark has changed:', bookmark);
-    //    }, [bookmark]);
-
+    const addToBookmark=(data:NftItem)=>dispatch(setBookmarks(data))
+    const bookmark:NftItem[]=useSelector((state:any)=>state?.bookmarks)
+    const [loading,setLoading]=useState(true);
+    const collectionData:CollectionInfo=useSelector((state:any)=>state?.collectionData)
   
   return (
-    <TouchableOpacity onPress={()=>{
+    <View  style={styles.item}>
+    <TouchableOpacity style={styles.image} onPress={()=>{
+        /*@ts-ignore*/
         navigation.navigate('NFTPage',{
             data:item
         })
-    }} style={styles.item}>
-     <Image style={{width:'100%',height:'100%',borderRadius:12}} source={{uri:item.nft_data?.external_data?.image||item.nft_data?.external_data?.asset_url}}/>
-    <View style={{width:'100%',height:32,borderBottomLeftRadius:12,borderBottomRightRadius:12,backgroundColor:'rgba(0,0,0,0.8)',position:'absolute',bottom:0,alignItems:'center',justifyContent:'space-between',flexDirection:'row',padding:4,paddingHorizontal:12}}>
-        <Text style={{fontFamily:typography.Bold,fontSize:12,color:'white',}}>
+        lightFeedback()
+    }}>
+     <Image onLoadEnd={()=>{
+        setLoading(false)
+     }} style={styles.image} source={{uri: loading? collectionData?.image_url :item.nft_data?.external_data?.image||item.nft_data?.external_data?.asset_url}}/>
+     </TouchableOpacity>
+    <View style={styles.tokenContainer}>
+        <Text style={styles.name}>
             {item?.nft_data?.external_data?.name}
         </Text>
         <TouchableOpacity onPress={()=>{
-            onBookmarkClicked(item)
+            onBookmarkClicked(item,bookmark,addToBookmark)
         }}>
-        <Icon name={checkIsBookmarked(item)?'bookmark':'bookmark-outline'} color={'white'}/>
+        <Icon name={checkIsBookmarked(item,bookmark)?'bookmark':'bookmark-outline'} color={'white'}/>
         </TouchableOpacity>
     </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 0,
+        paddingBottom:200
          // 20px padding on left and right
       },
+      name:{fontFamily:typography.Bold,fontSize:12,color:'white'},
       item: {
         width: (width - 40) / 2,
         margin: 10, 
@@ -93,6 +66,8 @@ const styles = StyleSheet.create({
         borderWidth:1
         
       },
+      image:{width:'100%',height:'100%',borderRadius:12},
+      tokenContainer:{width:'100%',height:32,borderBottomLeftRadius:12,borderBottomRightRadius:12,backgroundColor:'rgba(0,0,0,0.8)',position:'absolute',bottom:0,alignItems:'center',justifyContent:'space-between',flexDirection:'row',padding:4,paddingHorizontal:12}
 });
 
 export default NFTItem

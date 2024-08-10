@@ -1,30 +1,32 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { NFTList } from '../../../constant/data';
+import { FlatList, StyleSheet, Dimensions,View} from 'react-native';
+import { CollectionInfo, NftItem } from '../../../types/CollectionTypes';
 import { colors } from '../../../utils/theme';
 import useCollection from '../_hooks/useCollection';
 
 import NFTItem from './NFTItem';
-
-
-// Get screen width
 const { width } = Dimensions.get('window');
 
-// Calculate item width
+interface Collection{
+  collectionItems:NftItem[],
+  page:number,
+  setPage:any
+}
 
 const CollectionList = () => {
-   const {collectionItems,page,setPage}:any=useCollection();
-    //const data=NFTList
-  
+   const {collectionItems,page,setPage}:Collection=useCollection();
 
   return (
     <FlatList
-      data={collectionItems?.filter((item:any,index:any)=>{
+      data={collectionItems?.filter((item,index)=>{
         return item?.nft_data?.external_data?.name!==undefined
       })}
       style={{
         backgroundColor:colors.secondaryBackground
       }}
+      ListFooterComponent={()=>(
+        <View style={{width:'100%',height:200}}/>
+      )}
       renderItem={({item})=>(
         <NFTItem item={item}/>
       )}
@@ -43,7 +45,8 @@ const CollectionList = () => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 0,
-        backgroundColor:colors.secondaryBackground
+        backgroundColor:colors.secondaryBackground,
+        paddingBottom:200
          // 20px padding on left and right
       },
       item: {

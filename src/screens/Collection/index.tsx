@@ -1,14 +1,15 @@
-import { View, Text, ScrollView,Image, Platform } from 'react-native'
+import { View,Image, Platform } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/theme'
-import useCollection from './_hooks/useCollection'
 import TabBar from './_components/TabBar'
+import { useSelector } from 'react-redux'
+import { CollectionInfo } from '../../types/CollectionTypes'
 
 
 
 
 const CollectionPage = () => {
-    const {collectionData}:any=useCollection();
+  const collectionData:CollectionInfo=useSelector((state:any)=>state?.collectionData)
     
   return (
     <View style={{width:'100%',height:'100%',backgroundColor:colors.primaryBackground}}>

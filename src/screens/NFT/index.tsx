@@ -9,6 +9,9 @@ import { setBookmarks } from '../../store/action'
 import { truncate } from '../../utils/common'
 import Traits from './components/Trait'
 import { useNavigation } from '@react-navigation/native'
+import { NftItem } from '../../types/CollectionTypes'
+import { checkIsBookmarked, onBookmarkClicked } from '../../utils/collection'
+import CurrentPrice from './components/CurrentPrice'
 
 const NFTPage = ({route}:any) => {
   let nftData:any=route.params?.data
@@ -16,39 +19,9 @@ const NFTPage = ({route}:any) => {
   const navigation=useNavigation()
   const {width,height}=Dimensions.get('screen');
   const dispatch=useDispatch();
-    const addToBookmark=(data:any)=>dispatch(setBookmarks(data))
-    const bookmark:any=useSelector((state:any)=>state?.bookmarks)
-    const checkIsBookmarked=(item:any)=>{
-        let includes= [...bookmark]?.filter((items,index)=>{
-            return item?.nft_data?.external_data?.name==items?.nft_data?.external_data?.name
-        })
-        
-        if(includes.length>0){
-            //setBookmarked(true)
-            return true
-        }
-        else{
-            //setBookmarked(false)
-            return false
-        }
-    }
-
-    const onBookmarkClicked=async(item:any)=>{
-        if(checkIsBookmarked(item)){
-            let filter=[...bookmark].filter((items,index)=>{
-                return item?.nft_data?.external_data?.name!==items?.nft_data?.external_data?.name
-            })
-            addToBookmark(filter)
-        }
-        else{
-            let finalArr=[...bookmark]
-            finalArr.push(item);
-            await AsyncStorage.setItem('bookmark',JSON.stringify(finalArr))
-            //console.log(finalArr)
-            
-            addToBookmark(finalArr)
-        }
-    }
+  const addToBookmark=(data:any)=>dispatch(setBookmarks(data))
+  const bookmark:NftItem[]=useSelector((state:any)=>state?.bookmarks)
+    
 
 
   return (
@@ -74,12 +47,12 @@ const NFTPage = ({route}:any) => {
           </View>
           
           <TouchableOpacity onPress={()=>{
-            onBookmarkClicked(nftData)
+            onBookmarkClicked(nftData,bookmark,addToBookmark)
         }}>
-        <Icon name={checkIsBookmarked(nftData)?'bookmark':'bookmark-outline'} color={'white'} size={24}/>
+        <Icon name={checkIsBookmarked(nftData,bookmark)?'bookmark':'bookmark-outline'} color={'white'} size={24}/>
         </TouchableOpacity>
           </View>
-        </View>
+        </View>     
         <Traits traits={traitData}/>
       </ScrollView>
 
