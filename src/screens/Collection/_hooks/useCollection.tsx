@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBookmarks, setCollectionData } from '../../../store/action'
 
-const apiKey = process.env.API_URL || 'cqt_rQ4rjPvbKdDRJCTVHyDWxdhH4hPp'
+const apiKey = process.env.API_URL
 
 export default function useCollection() {
     const [page,setPage]=useState(0)
@@ -48,7 +48,7 @@ export default function useCollection() {
       const fetchCollectionInfo=async()=>{
         const data= await axios.get('https://api.simplehash.com/api/v0/nfts/collections/ethereum/0x8821bee2ba0df28761afff119d66390d594cd280',{
           headers:{
-            'X-API-KEY':"thefactiles_sk_qlmq1mzcr8e6175agdrtae9bvrz2o9up"
+            'X-API-KEY':apiKey
           }
         })
         if(data?.data?.collections){
